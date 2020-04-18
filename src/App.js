@@ -1,25 +1,36 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect } from 'react';
+import Main from './components/Main';
+import HeaderMain from './components/HeaderMain';
+import axios from 'axios';
+import Listing from './components/Listing';
+import { Container } from 'semantic-ui-react';
+import Loading from './components/Loading';
 
 function App() {
+  const [covidData, setCovidData] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    const URL = `https://covidtracking.com/api/v1/us/current.json`;
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(URL);
+        const data = response.data[0];
+        setCovidData(data);
+      } catch (error) {
+        console.error(error);
+      } finally {
+      }
+    };
+    fetchData();
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Container>
+      <HeaderMain covidData={covidData} />
+      <Main covidData={covidData} />
+      <Listing />
+    </Container>
   );
 }
 
