@@ -4,11 +4,9 @@ import HeaderMain from './components/HeaderMain';
 import axios from 'axios';
 import Listing from './components/Listing';
 import { Container } from 'semantic-ui-react';
-import Loading from './components/Loading';
 
 function App() {
   const [covidData, setCovidData] = useState([]);
-  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const URL = `https://covidtracking.com/api/v1/us/current.json`;
